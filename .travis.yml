@@ -1,0 +1,14 @@
+dist: xenial
+language: csharp
+mono: none
+dotnet: 3.1.302
+sudo: required
+services:
+  - postgresql
+env:
+  - ASPNETCORE_ENVIRONMENT=postgresql
+before_script:
+  - psql -c 'create database breeze;' -U postgres
+script:
+  - dotnet tool restore
+  - dotnet cake

@@ -1,0 +1,3 @@
+[submodule "Source/Breeze.js"]
+	path = Source/Breeze.js
+	url = https://github.com/Breeze/Breeze.js

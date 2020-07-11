@@ -1,0 +1,34 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="Models.NorthwindIB.NH" assembly="Breeze.NHibernate.NorthwindIB.Tests.Models">
+  <class name="Comment" table="`Comment`" schema="`dbo`" dynamic-update="true" optimistic-lock="dirty">
+    <!--TODO- composite keys are a BAD IDEA-->
+    <composite-id>
+      <key-property column="`CreatedOn`" name="CreatedOn" />
+      <key-property column="`SeqNum`" name="SeqNum" />
+    </composite-id>
+    <property name="Comment1" type="string" />
+    
+    <!--<set name="ProductComments" table="`ProductComment`" schema="`dbo`" cascade="all-delete-orphan" inverse="true">
+      <key>
+        <column name="`CreatedOn`" />
+        <column name="`SeqNum`" />
+      </key>
+      <one-to-many class="ProductComment" />
+    </set>-->
+
+  </class>
+
+
+  <!--<class name="ProductComment" table="`ProductComment`" schema="`dbo`" dynamic-update="true" optimistic-lock="dirty">
+    <composite-id>
+      <key-many-to-one name="Comment">
+        <column name="`CreatedOn`" />
+        <column name="`SeqNum`" />
+      </key-many-to-one>
+      <key-many-to-one column="`ProductId`" name="Product" />
+    </composite-id>
+    <property name="Text" type="string" />
+    <property name="ProductID" not-null="true" insert="false" update="false" />
+    <property name="CreatedOn" not-null="true" insert="false" update="false" />
+    <property name="SeqNum" not-null="true" insert="false" update="false" />
+  </class>-->
+</hibernate-mapping>

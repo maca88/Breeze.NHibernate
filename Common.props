@@ -1,0 +1,14 @@
+﻿<Project>
+  <PropertyGroup>
+    <Version>1.0.0</Version>
+    <Authors>maca88</Authors>
+    <Company />
+    <Copyright>Copyright © 2020</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/maca88/Breeze.NHibernate</PackageProjectUrl>
+    <PackageTags>Breeze NHibernate</PackageTags>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatSpecificWarningsAsErrors />
+  </PropertyGroup>
+</Project>

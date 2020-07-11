@@ -1,0 +1,92 @@
+﻿projects:
+- filePath: Source/Breeze.NHibernate/Breeze.NHibernate.csproj
+  targetFramework: netcoreapp3.1
+  concurrentRun: false
+  applyChanges: true
+  analyzation:
+    methodConversion:
+    - conversion: Ignore
+      name: FetchAndApplyChanges
+      containingTypeName: EntityUpdater
+    - conversion: Ignore
+      name: SaveChanges
+      containingTypeName: PersistenceManager
+    - conversion: Ignore
+      containingTypeName: AsyncSaveChangesOptions
+    - conversion: Smart
+      containingTypeName: EntityUpdater
+    - conversion: ToAsync
+      name: BeforeFetchEntities
+      containingTypeName: PersistenceManager
+    - conversion: ToAsync
+      name: BeforeApplyChanges
+      containingTypeName: PersistenceManager
+    - conversion: ToAsync
+      name: BeforeSaveChanges
+      containingTypeName: PersistenceManager
+    - conversion: ToAsync
+      name: BeforeSaveEntityChanges
+      containingTypeName: PersistenceManager
+    - conversion: ToAsync
+      name: AfterSaveChanges
+      containingTypeName: PersistenceManager
+    - conversion: ToAsync
+      name: AfterFlushChanges
+      containingTypeName: PersistenceManager
+    callForwarding: false
+    cancellationTokens:
+      guards: true
+      methodParameter:
+      - parameter: Optional
+      requiresCancellationToken:
+      - name: BeforeSaveChanges
+      - name: AfterSaveChanges
+    scanMethodBody: true
+    searchAsyncCounterpartsInInheritedTypes: true
+    scanForMissingAsyncMembers:
+    - all: true
+  transformation:
+    configureAwaitArgument: false
+    localFunctions: true
+  registerPlugin:
+  - type: AsyncGenerator.Core.Plugins.EmptyRegionRemover
+    assemblyName: AsyncGenerator.Core
+- filePath: Source/Breeze.NHibernate.Tests/Breeze.NHibernate.Tests.csproj
+  targetFramework: netcoreapp3.1
+  concurrentRun: false
+  applyChanges: true
+  analyzation:
+    methodConversion:
+    - conversion: Ignore
+      name: SetUp
+    - conversion: Smart
+      hasAttributeName: TheoryAttribute
+    - conversion: Smart
+      hasAttributeName: FactAttribute
+    preserveReturnType:
+    - hasAttributeName: FactAttribute
+    - hasAttributeName: TheoryAttribute
+    ignoreSearchForMethodReferences:
+    - hasAttributeName: TheoryAttribute
+    - hasAttributeName: FactAttribute
+    alwaysAwait:
+    - hasAttributeName: TheoryAttribute
+    - hasAttributeName: FactAttribute
+    ignoreAsyncCounterparts:
+    - rule: Obsolete
+    cancellationTokens:
+      withoutCancellationToken:
+      - hasAttributeName: FactAttribute
+      - hasAttributeName: TheoryAttribute
+    exceptionHandling:
+      catchMethodBody:
+      - all: true
+        result: false
+    scanMethodBody: true
+    searchAsyncCounterpartsInInheritedTypes: true
+    scanForMissingAsyncMembers:
+    - all: true
+methodRules:
+- filters:
+  - hasAttributeName: ObsoleteAttribute
+  name: Obsolete

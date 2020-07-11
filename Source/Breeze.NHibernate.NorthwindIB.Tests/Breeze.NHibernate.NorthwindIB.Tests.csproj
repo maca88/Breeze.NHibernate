@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+    <PackageReference Include="NHibernate" Version="5.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Breeze.NHibernate.AspNetCore.Mvc\Breeze.NHibernate.AspNetCore.Mvc.csproj" />
+    <ProjectReference Include="..\Breeze.NHibernate.NorthwindIB.Tests.Models\Breeze.NHibernate.NorthwindIB.Tests.Models.csproj" />
+  </ItemGroup>
+
+</Project>
