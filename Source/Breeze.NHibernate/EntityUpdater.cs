@@ -888,6 +888,14 @@ namespace Breeze.NHibernate
 
             if (remove)
             {
+                // Do not remove a non deleted child from a collection that will delete it, in order to
+                // avoid exception: deleted object would be re-saved by cascade
+                if (entityInfo.EntityState != EntityState.Deleted &&
+                    association.InverseAssociationPropertyCascadeStyle.HasOrphanDelete)
+                {
+                    return;
+                }
+
                 // Remove it from the parent collection/entity
                 association.RemoveFromParent(entityInfo.Entity, dbParent);
             }
