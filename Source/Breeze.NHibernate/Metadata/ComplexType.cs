@@ -3,8 +3,14 @@ using System;
 
 namespace Breeze.NHibernate.Metadata
 {
+    /// <summary>
+    /// Breeze complex type.
+    /// </summary>
     public class ComplexType : StructuralType
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="ComplexType"/>.
+        /// </summary>
         public ComplexType(Type type) : base(type)
         {
             IsComplexType = true;

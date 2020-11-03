@@ -46,6 +46,9 @@ namespace Breeze.NHibernate.Serialization
         private readonly ConcurrentDictionary<Type, GetSessionDelegate> _typeSessionGetters = new ConcurrentDictionary<Type, GetSessionDelegate>();
         private readonly ObjectPool<HashSet<object>> _hashSetPool = new ObjectPool<HashSet<object>>(() => new HashSet<object>());
 
+        /// <summary>
+        /// Constructs an instance of <see cref="DefaultLazyLoadGuardProvider"/>.
+        /// </summary>
         public DefaultLazyLoadGuardProvider(IEntityMetadataProvider entityMetadataProvider)
         {
             _entityMetadataProvider = entityMetadataProvider;

@@ -49,6 +49,9 @@ namespace Breeze.NHibernate
             public Action<object, object> SetValue { get; }
         }
 
+        /// <summary>
+        /// Constructs an instance of <see cref="EntityUpdater"/>.
+        /// </summary>
         public EntityUpdater(
             IEntityMetadataProvider entityMetadataProvider,
             IBreezeConfigurator breezeConfigurator,
@@ -869,9 +872,13 @@ namespace Breeze.NHibernate
                 // Try find the parent from the session in case it was lazy loaded when the child was retrieved due to the specific mapping
                 parentEntityInfo = null;
                 var relatedPersister = _entityMetadataProvider.GetMetadata(association.EntityType).EntityPersister;
-                dbParent = sessionProvider.GetSession(association.EntityType)
-                    .GetSessionImplementation().PersistenceContext
-                    .GetEntity(new global::NHibernate.Engine.EntityKey(fkValue, relatedPersister));
+                var session = sessionProvider.GetSession(association.EntityType);
+                // For remove, in order to avoid a cascade save operation on a deleted entity (occurs when parent is loaded in
+                // before save callback), we remove the association even if it is not loaded.
+                dbParent = remove
+                    ? session.Get(relatedPersister.EntityName, fkValue)
+                    : session.GetSessionImplementation().PersistenceContext
+                        .GetEntity(new global::NHibernate.Engine.EntityKey(fkValue, relatedPersister));
             }
 
             if (dbParent == null)

@@ -7,6 +7,9 @@ namespace Breeze.NHibernate.Validation
     /// </summary>
     public class RequiredValidator : Validator, IBreezeValidator
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="RequiredValidator"/>.
+        /// </summary>
         public RequiredValidator(bool allowEmptyStrings = false) : base("required")
         {
             AllowEmptyStrings = allowEmptyStrings;

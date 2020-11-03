@@ -14,6 +14,9 @@ namespace Breeze.NHibernate
 
         private readonly Action<object, object> _removeFunction;
 
+        /// <summary>
+        /// Constructs an instance of <see cref="EntityAssociation"/>.
+        /// </summary>
         public EntityAssociation(
             Type entityType,
             bool isOneToOne,

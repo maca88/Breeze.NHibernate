@@ -15,6 +15,9 @@ namespace Breeze.NHibernate
         private readonly IEntityMetadataProvider _entityMetadataProvider;
         private readonly JsonSerializer _jsonSerializer;
 
+        /// <summary>
+        /// Constructs an instance of <see cref="SaveWorkStateFactory"/>.
+        /// </summary>
         public SaveWorkStateFactory(
             IEntityMetadataProvider entityMetadataProvider,
             IJsonSerializerSettingsProvider jsonSerializerSettingsProvider,

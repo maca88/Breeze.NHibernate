@@ -3,12 +3,21 @@ using System.Collections.Generic;
 
 namespace Breeze.NHibernate.Metadata
 {
+    /// <summary>
+    /// Represents a breeze entity type.
+    /// </summary>
     public class EntityType : StructuralType
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="EntityType"/>.
+        /// </summary>
         public EntityType(Type type) : base(type)
         {
         }
 
+        /// <summary>
+        /// The base type name.
+        /// </summary>
         public string BaseTypeName
         {
             get => Get<string>(nameof(BaseTypeName));
@@ -33,6 +42,9 @@ namespace Breeze.NHibernate.Metadata
             set => Set(nameof(DefaultResourceName), value);
         }
 
+        /// <summary>
+        /// A list of navigation properties.
+        /// </summary>
         public List<NavigationProperty> NavigationProperties
         {
             get => GetOrCreate(nameof(NavigationProperties), () => new List<NavigationProperty>());

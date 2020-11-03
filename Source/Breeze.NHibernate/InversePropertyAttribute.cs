@@ -8,6 +8,9 @@ namespace Breeze.NHibernate
     [AttributeUsage(AttributeTargets.Property)]
     public class InversePropertyAttribute : Attribute
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="InversePropertyAttribute"/>.
+        /// </summary>
         public InversePropertyAttribute(string propertyName)
         {
             PropertyName = propertyName;

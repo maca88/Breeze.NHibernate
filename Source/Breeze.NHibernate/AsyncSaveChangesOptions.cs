@@ -10,8 +10,7 @@ namespace Breeze.NHibernate
     /// A delegate called before an async save operation.
     /// </summary>
     /// <param name="context">The context.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the work</param>
     public delegate Task AsyncBeforeSaveOperationDelegate(SaveChangesContext context, CancellationToken cancellationToken);
 
     /// <summary>
@@ -19,8 +18,7 @@ namespace Breeze.NHibernate
     /// </summary>
     /// <param name="saveOrder">The save order.</param>
     /// <param name="context">The context.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the work</param>
     public delegate Task AsyncSaveOperationDelegate(List<EntityInfo> saveOrder, SaveChangesContext context, CancellationToken cancellationToken);
 
     /// <summary>
@@ -28,6 +26,7 @@ namespace Breeze.NHibernate
     /// </summary>
     /// <param name="entityInfo">The entity info.</param>
     /// <param name="context">The context.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the work</param>
     public delegate Task AsyncBeforeSaveEntityChangesDelegate(EntityInfo entityInfo, SaveChangesContext context, CancellationToken cancellationToken);
 
     /// <summary>
@@ -35,6 +34,7 @@ namespace Breeze.NHibernate
     /// </summary>
     /// <param name="context">The context.</param>
     /// <param name="keyMappings">The key mappings</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the work</param>
     public delegate Task AsyncAfterFlushChangesDelegate(SaveChangesContext context, List<KeyMapping> keyMappings, CancellationToken cancellationToken);
 
     /// <summary>

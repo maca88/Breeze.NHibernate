@@ -1,8 +1,14 @@
 ﻿
 namespace Breeze.NHibernate.Metadata
 {
+    /// <summary>
+    /// Contains information about a breeze data service.
+    /// </summary>
     public class DataService : MetadataObject
     {
+        /// <summary>
+        /// The service name.
+        /// </summary>
         public string ServiceName
         {
             get => Get<string>(nameof(ServiceName));

@@ -7,6 +7,7 @@
     <LangVersion>8.0</LangVersion>
     <IncludeSymbols>true</IncludeSymbols>
     <Description>Breeze server side for NHibernate</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

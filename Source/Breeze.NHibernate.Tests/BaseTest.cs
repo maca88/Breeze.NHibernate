@@ -43,6 +43,7 @@ namespace Breeze.NHibernate.Tests
             serviceCollection.AddSingleton<IEntityBatchFetcherFactory, EntityBatchFetcherFactory>();
             serviceCollection.AddSingleton<IModelSaveValidatorProvider, DefaultModelSaveValidatorProvider>();
             serviceCollection.AddSingleton<ITypeMembersProvider, DefaultTypeMembersProvider>();
+            serviceCollection.AddSingleton<IDataTypeProvider, DefaultDataTypeProvider>();
             serviceCollection.AddSingleton<ISaveWorkStateFactory, SaveWorkStateFactory>();
 
             serviceCollection.AddSingleton<ILazyLoadGuardProvider, DefaultLazyLoadGuardProvider>();

@@ -17,6 +17,9 @@ namespace Breeze.NHibernate
         private readonly IEntityMetadataProvider _entityMetadataProvider;
         private readonly IProxyInitializer _proxyInitializer;
 
+        /// <summary>
+        /// Constructs an instance of <see cref="DefaultEntityQueryExecutor"/>.
+        /// </summary>
         public DefaultEntityQueryExecutor(IEntityMetadataProvider entityMetadataProvider, IProxyInitializer proxyInitializer)
         {
             _entityMetadataProvider = entityMetadataProvider;

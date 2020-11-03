@@ -2,6 +2,9 @@
 
 namespace Breeze.NHibernate.Metadata
 {
+    /// <summary>
+    /// Represents a breeze navigation property.
+    /// </summary>
     public class NavigationProperty : BaseProperty
     {
         /// <summary>
@@ -40,6 +43,9 @@ namespace Breeze.NHibernate.Metadata
             set => Set(nameof(ForeignKeyNames), value);
         }
 
+        /// <summary>
+        /// Inverse foreign key names.
+        /// </summary>
         public IReadOnlyCollection<string> InvForeignKeyNames
         {
             get => Get<IReadOnlyCollection<string>>(nameof(InvForeignKeyNames));
@@ -55,12 +61,18 @@ namespace Breeze.NHibernate.Metadata
             set => Set(nameof(ForeignKeyNamesOnServer), value);
         }
 
+        /// <summary>
+        /// Inverse foreign key names on the server.
+        /// </summary>
         public IReadOnlyCollection<string> InvForeignKeyNamesOnServer
         {
             get => Get<IReadOnlyCollection<string>>(nameof(InvForeignKeyNamesOnServer));
             set => Set(nameof(InvForeignKeyNamesOnServer), value);
         }
 
+        /// <summary>
+        /// Whether has orphan delete set.
+        /// </summary>
         public bool HasOrphanDelete
         {
             get => Get<bool>(nameof(HasOrphanDelete));

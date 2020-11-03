@@ -9,6 +9,9 @@ namespace Breeze.NHibernate
     /// </summary>
     public class EntityInfo
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="EntityInfo"/>.
+        /// </summary>
         public EntityInfo(EntityMetadata entityMetadata, object clientEntity)
         {
             EntityMetadata = entityMetadata ?? throw new ArgumentNullException(nameof(entityMetadata));

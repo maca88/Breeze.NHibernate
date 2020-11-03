@@ -63,18 +63,29 @@ namespace Breeze.NHibernate.Metadata
             set => Set(nameof(LocalQueryComparisonOptions), value);
         }
 
+        /// <summary>
+        /// List of enum types.
+        /// </summary>
         public List<EnumType> EnumTypes
         {
             get => Get<List<EnumType>>(nameof(EnumTypes));
             set => Set(nameof(EnumTypes), value);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public List<DataService> DataServices
         {
             get => Get<List<DataService>>(nameof(DataServices));
             set => Set(nameof(DataServices), value);
         }
 
+        /// <summary>
+        /// Generates a json of the current object.
+        /// </summary>
+        /// <param name="formatting">The json formatting.</param>
+        /// <returns>The generated json.</returns>
         public string ToJson(Formatting formatting = Formatting.Indented)
         {
             return JsonConvert.SerializeObject(this, formatting, JsonSerializerSettings);

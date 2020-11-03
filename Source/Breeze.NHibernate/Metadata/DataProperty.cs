@@ -2,6 +2,9 @@
 
 namespace Breeze.NHibernate.Metadata
 {
+    /// <summary>
+    /// Represents a breeze data property.
+    /// </summary>
     public class DataProperty : BaseProperty
     {
         private static readonly object Object = new object();
@@ -69,12 +72,18 @@ namespace Breeze.NHibernate.Metadata
             set => Set(nameof(MaxLength), value);
         }
 
+        /// <summary>
+        /// Whether the property is settable.
+        /// </summary>
         public bool IsSettable
         {
             get => Get<bool>(nameof(IsSettable));
             set => Set(nameof(IsSettable), value);
         }
 
+        /// <summary>
+        /// Whether the property is unmapped.
+        /// </summary>
         public bool IsUnmapped
         {
             get => Get<bool>(nameof(IsUnmapped));

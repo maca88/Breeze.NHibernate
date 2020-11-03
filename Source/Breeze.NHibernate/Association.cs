@@ -9,6 +9,13 @@ namespace Breeze.NHibernate
     /// </summary>
     public class Association
     {
+        /// <summary>
+        /// The default constructor.
+        /// </summary>
+        /// <param name="entityType">The entity type.</param>
+        /// <param name="foreignKeyPropertyNames">The foreign key property names.</param>
+        /// <param name="foreignKeyDirection">The foreign key direction.</param>
+        /// <param name="isScalar">Whether is scalar.</param>
         public Association(Type entityType, IReadOnlyList<string> foreignKeyPropertyNames, ForeignKeyDirection foreignKeyDirection, bool isScalar)
         {
             EntityType = entityType;

@@ -1,4 +1,5 @@
 // Copied from Breeze.Core
+#pragma warning disable CS1591
 namespace Breeze.Core {
   public enum OperatorType {
 

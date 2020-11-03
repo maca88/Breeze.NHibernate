@@ -17,6 +17,10 @@ namespace Breeze.NHibernate.Configuration
         private readonly ITypeMembersProvider _typeMembersProvider;
         private bool _isLocked;
 
+        /// <summary>
+        /// Constructs an instance of <see cref="BreezeConfigurator"/>.
+        /// </summary>
+        /// <param name="typeMembersProvider">The type members provider.</param>
         public BreezeConfigurator(ITypeMembersProvider typeMembersProvider)
         {
             _typeMembersProvider = typeMembersProvider;
