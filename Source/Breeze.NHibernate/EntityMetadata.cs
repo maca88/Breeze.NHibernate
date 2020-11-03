@@ -12,6 +12,9 @@ namespace Breeze.NHibernate
     /// </summary>
     public class EntityMetadata : ModelMetadata
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="EntityMetadata"/>.
+        /// </summary>
         public EntityMetadata(
             AbstractEntityPersister entityPersister,
             Func<object> createInstance,

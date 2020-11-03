@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using Breeze.NHibernate.Metadata;
-using NHibernate;
 using NHibernate.Engine;
 using NHibernate.Intercept;
 using NHibernate.Proxy;
@@ -13,66 +10,6 @@ namespace Breeze.NHibernate.Internal
     internal static class BreezeHelper
     {
         private static readonly string[] TypeDelimiter = {":#"};
-        // Map of NH datatype to Breeze datatype.
-        private static readonly Dictionary<string, DataType> BreezeTypeMap = new Dictionary<string, DataType>
-        {
-            {NHibernateUtil.Binary.Name, DataType.Binary},
-            {NHibernateUtil.BinaryBlob.Name, DataType.Binary},
-#pragma warning disable 618
-            {NHibernateUtil.Timestamp.Name, DataType.DateTime},
-#pragma warning restore 618
-            {NHibernateUtil.TimeAsTimeSpan.Name, DataType.Time},
-            {NHibernateUtil.UtcDateTime.Name, DataType.DateTime},
-            {NHibernateUtil.LocalDateTime.Name, DataType.DateTime}
-        };
-
-        // List of DataTypes that have getNext method implemented in BreezeJS
-        private static readonly HashSet<DataType> SupportedClientDataTypeGenerators = new HashSet<DataType>
-        {
-            DataType.String,
-            DataType.Int64,
-            DataType.Int32,
-            DataType.Int16,
-            DataType.Decimal,
-            DataType.Double,
-            DataType.Single,
-            DataType.DateTime,
-            DataType.DateTimeOffset,
-            DataType.Guid,
-        };
-
-        public static bool SupportsClientGenerator(IType type)
-        {
-            return TryGetDataType(type, out var dataType) && SupportedClientDataTypeGenerators.Contains(dataType);
-        }
-
-        public static bool TryGetDataType(IType type, out DataType dataType)
-        {
-            if (type.IsComponentType)
-            {
-                dataType = DataType.Undefined;
-                return false;
-            }
-
-            if (BreezeTypeMap.TryGetValue(type.Name, out dataType))
-            {
-                return true;
-            }
-
-            if (Enum.TryParse(type.Name, out dataType))
-            {
-                return true;
-            }
-
-            if (type is AbstractEnumType)
-            {
-                dataType = DataType.String;
-                return true;
-            }
-
-            dataType = DataType.Undefined;
-            return false;
-        }
 
         public static object ConvertToType(object value, Type toType)
         {
@@ -89,16 +26,6 @@ namespace Breeze.NHibernate.Internal
             return Convert.ChangeType(value, toType, CultureInfo.InvariantCulture);
         }
 
-        public static DataType GetDataType(IType type)
-        {
-            if (TryGetDataType(type, out var dataType))
-            {
-                return dataType;
-            }
-
-            throw new NotSupportedException($"Unknown NHibernate type {type.Name}");
-        }
-
         public static int? GetTypeLength(IType type, ISessionFactoryImplementor sessionFactory)
         {
             if (type.IsComponentType)
@@ -113,6 +40,11 @@ namespace Breeze.NHibernate.Internal
         public static string GetBreezeTypeFullName(Type type)
         {
             return $"{type.Name}:#{type.Namespace}";
+        }
+
+        public static bool IsNullable(Type type)
+        {
+            return Nullable.GetUnderlyingType(type) != null || !type.IsValueType;
         }
 
         public static string GetEntityName(string breezeTypeName)

@@ -9,6 +9,9 @@ namespace Breeze.NHibernate
     /// </summary>
     public abstract class ModelMetadata
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="ModelMetadata"/>.
+        /// </summary>
         protected ModelMetadata(
             Type type,
             Type baseType,

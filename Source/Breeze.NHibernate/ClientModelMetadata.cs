@@ -10,6 +10,9 @@ namespace Breeze.NHibernate
     /// </summary>
     public class ClientModelMetadata : ModelMetadata
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="ClientModelMetadata"/>.
+        /// </summary>
         public ClientModelMetadata(
             Type type,
             Type baseType,

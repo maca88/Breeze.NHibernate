@@ -6,6 +6,9 @@ namespace Breeze.NHibernate
     /// </summary>
     public class KeyMapping
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="KeyMapping"/>.
+        /// </summary>
         public KeyMapping(string entityTypeName, object tempValue, object realValue)
         {
             EntityTypeName = entityTypeName;

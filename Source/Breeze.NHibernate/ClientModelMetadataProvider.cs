@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Breeze.NHibernate.Extensions;
 using Breeze.NHibernate.Internal;
 using Breeze.NHibernate.Metadata;
-using NHibernate;
 using NHibernate.Type;
 
 namespace Breeze.NHibernate
@@ -26,6 +26,7 @@ namespace Breeze.NHibernate
 
         private readonly IEntityMetadataProvider _entityMetadataProvider;
         private readonly ISyntheticPropertyNameConvention _syntheticPropertyNameConvention;
+        private readonly IDataTypeProvider _dataTypeProvider;
         private readonly ConcurrentDictionary<Type, ClientModelMetadata> _cachedMetadata = new ConcurrentDictionary<Type, ClientModelMetadata>();
 
         static ClientModelMetadataProvider()
@@ -44,12 +45,17 @@ namespace Breeze.NHibernate
             IdentifierPropertyGetters = new [] {function};
         }
 
+        /// <summary>
+        /// Constructs an instance of <see cref="ClientModelMetadataProvider"/>.
+        /// </summary>
         public ClientModelMetadataProvider(
             IEntityMetadataProvider entityMetadataProvider,
-            ISyntheticPropertyNameConvention syntheticPropertyNameConvention)
+            ISyntheticPropertyNameConvention syntheticPropertyNameConvention,
+            IDataTypeProvider dataTypeProvider)
         {
             _entityMetadataProvider = entityMetadataProvider;
             _syntheticPropertyNameConvention = syntheticPropertyNameConvention;
+            _dataTypeProvider = dataTypeProvider;
         }
 
         /// <inheritdoc />
@@ -93,41 +99,46 @@ namespace Breeze.NHibernate
                     continue;
                 }
 
-                // Add a one to many relation
-                if (propertyType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(propertyType))
-                {
-                    clientProperties.Add(CreateCollectionNavigationProperty(clientType, property, propertyType.GetGenericArguments()[0], associations));
-                    continue;
-                }
-
-                // Add a many to one relation
-                var relatedEntityMetadata = _entityMetadataProvider.IsEntityType(propertyType)
-                    ? _entityMetadataProvider.GetMetadata(propertyType)
+                
+                var isCollection = propertyType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(propertyType);
+                var elementType = isCollection ? propertyType.GetGenericArguments()[0] : propertyType;
+                var relatedEntityMetadata = _entityMetadataProvider.IsEntityType(elementType)
+                    ? _entityMetadataProvider.GetMetadata(elementType)
                     : null;
-                if (relatedEntityMetadata != null || IsClientModel(propertyType))
+
+                if (relatedEntityMetadata != null || IsClientModel(elementType))
                 {
-                    clientProperties.Add(CreateEntityNavigationProperty(
-                        clientType,
-                        property,
-                        properties,
-                        relatedEntityMetadata,
-                        syntheticProperties,
-                        associations));
+                    clientProperties.Add(
+                        isCollection
+                            // Add a one to many relation
+                            ? CreateCollectionNavigationProperty(
+                                clientType,
+                                property,
+                                elementType,
+                                relatedEntityMetadata,
+                                associations)
+                            // Add a many to one relation
+                            : CreateEntityNavigationProperty(
+                                clientType,
+                                property,
+                                properties,
+                                relatedEntityMetadata,
+                                syntheticProperties,
+                                associations)
+                    );
+
                     continue;
                 }
 
-                if (BreezeHelper.TryGetDataType(NHibernateUtil.GuessType(propertyType), out var dataType))
-                {
-                    clientProperties.Add(new ClientModelProperty(
-                        property.Name,
-                        propertyType,
-                        false,
-                        dataType,
-                        !propertyType.IsValueType,
-                        property.Name == nameof(IClientModel.Id),
-                        false,
-                        false));
-                }
+                clientProperties.Add(new ClientModelProperty(
+                    property.Name,
+                    propertyType,
+                    false,
+                    _dataTypeProvider.GetDataType(propertyType),
+                    BreezeHelper.IsNullable(propertyType),
+                    property.Name == nameof(IClientModel.Id),
+                    false,
+                    false));
             }
 
             return new ClientModelMetadata(
@@ -152,12 +163,9 @@ namespace Breeze.NHibernate
             Type clientType,
             PropertyInfo property,
             Type elementEntityType,
+            EntityMetadata relatedEntityMetadata,
             Dictionary<string, Association> associations)
         {
-            var relatedEntityMetadata = _entityMetadataProvider.IsEntityType(elementEntityType)
-                ? _entityMetadataProvider.GetMetadata(elementEntityType)
-                : null;
-
             // We need to find the related property on the other side of the relation
             var invPropNameAttr = property.GetCustomAttribute<InversePropertyAttribute>();
             var invPropName = invPropNameAttr?.PropertyName;

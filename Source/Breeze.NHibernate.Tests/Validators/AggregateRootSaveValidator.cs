@@ -17,17 +17,20 @@ namespace Breeze.NHibernate.Tests.Validators
 
             // Try to find the root node by IAggregate
             var aggregateRoots = new HashSet<object>();
-            foreach (var node in rootNodes)
+            for (var i = 0; i < rootNodes.Count;)
             {
-                var entity = node.EntityInfo.Entity;
-                if (entity is IAggregate aggregate)
+                var entity = rootNodes[i].EntityInfo.Entity;
+                var aggregateRoot = entity is IAggregate aggregate ? aggregate.GetAggregateRoot() : entity;
+                if (aggregateRoot != entity)
                 {
-                    aggregateRoots.Add(aggregate.GetAggregateRoot());
+                    rootNodes.RemoveAt(i);
                 }
                 else
                 {
-                    aggregateRoots.Add(node);
+                    i++;
                 }
+
+                aggregateRoots.Add(aggregateRoot);
             }
 
             if (aggregateRoots.Count > 1)
@@ -35,8 +38,7 @@ namespace Breeze.NHibernate.Tests.Validators
                 throw new InvalidOperationException("Multiple aggregate roots found.");
             }
 
-            var rootEntity = aggregateRoots.First();
-            var rootNode = rootNodes.Find(o => o.EntityInfo.Entity == rootEntity);
+            var rootNode = rootNodes.FirstOrDefault();
             if (rootNode == null)
             {
                 throw new InvalidOperationException("The aggregate root is not present in the dependency graph.");

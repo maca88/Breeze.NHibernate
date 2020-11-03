@@ -1,8 +1,14 @@
 ﻿
 namespace Breeze.NHibernate.Metadata
 {
+    /// <summary>
+    /// A breeze validator.
+    /// </summary>
     public class Validator : MetadataObject
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="Validator"/>.
+        /// </summary>
         public Validator(string name)
         {
             Name = name;

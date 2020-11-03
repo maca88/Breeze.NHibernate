@@ -14,6 +14,9 @@ namespace Breeze.NHibernate.Validation
     {
         private readonly Dictionary<Type, StructuralType> _structuralTypes;
 
+        /// <summary>
+        /// Constructs an instance of <see cref="BreezeEntityValidator"/>.
+        /// </summary>
         public BreezeEntityValidator(BreezeMetadata breezeMetadata)
         {
             _structuralTypes = breezeMetadata.StructuralTypes.ToDictionary(o => o.Type);

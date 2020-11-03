@@ -10,6 +10,9 @@ namespace Breeze.NHibernate
     /// </summary>
     public class SaveWorkState
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="SaveWorkState"/>.
+        /// </summary>
         public SaveWorkState(Dictionary<Type, List<EntityInfo>> saveMap)
         {
             SaveMap = saveMap;

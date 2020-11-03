@@ -24,6 +24,9 @@ namespace Breeze.NHibernate.Serialization
         private readonly IClientModelMetadataProvider _clientModelMetadataProvider;
         private readonly ILazyLoadGuardProvider _lazyLoadGuardProvider;
 
+        /// <summary>
+        /// Constructs an instance of <see cref="BreezeContractResolver"/>.
+        /// </summary>
         public BreezeContractResolver(
             IBreezeConfigurator breezeConfigurator,
             IEntityMetadataProvider entityMetadataProvider,
@@ -65,6 +68,7 @@ namespace Breeze.NHibernate.Serialization
             return base.ResolveContract(type);
         }
 
+        /// <inheritdoc />
         protected override JsonContract CreateContract(Type objectType)
         {
             if (!typeof(INHibernateProxy).IsAssignableFrom(objectType))

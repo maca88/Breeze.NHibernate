@@ -28,6 +28,7 @@ namespace Breeze.NHibernate.AspNetCore.Mvc {
       serviceCollection.TryAddSingleton<IEntityBatchFetcherFactory, EntityBatchFetcherFactory>();
       serviceCollection.TryAddSingleton<IModelSaveValidatorProvider, DefaultModelSaveValidatorProvider>();
       serviceCollection.TryAddSingleton<ITypeMembersProvider, DefaultTypeMembersProvider>();
+      serviceCollection.TryAddSingleton<IDataTypeProvider, DefaultDataTypeProvider>();
       serviceCollection.TryAddSingleton<ISaveWorkStateFactory, SaveWorkStateFactory>();
       serviceCollection.TryAddSingleton<BreezeContractResolver>();
       serviceCollection.TryAddSingleton<BreezeEntityValidator>();

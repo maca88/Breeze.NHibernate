@@ -11,6 +11,7 @@ using NHibernate.Persister.Entity;
 using NHibernate.Type;
 using EntityType = Breeze.NHibernate.Metadata.EntityType;
 using static Breeze.NHibernate.Internal.BreezeHelper;
+using Breeze.NHibernate.Extensions;
 
 namespace Breeze.NHibernate
 {
@@ -24,6 +25,7 @@ namespace Breeze.NHibernate
         private readonly IEntityMetadataProvider _entityMetadataProvider;
         private readonly IClientModelMetadataProvider _clientModelMetadataProvider;
         private readonly IBreezeConfigurator _breezeConfigurator;
+        private readonly IDataTypeProvider _dataTypeProvider;
         private IPropertyValidatorsProvider _propertyValidatorsProvider;
         private Predicate<Type> _includePredicate;
         private Func<string, string> _pluralizeFunction;
@@ -34,18 +36,23 @@ namespace Breeze.NHibernate
         private Dictionary<Type, EntityMetadata> _entityMetadata;
         private Dictionary<Type, ClientModelMetadata> _clientModelMetadata;
 
+        /// <summary>
+        /// Constructs an instance of <see cref="BreezeMetadataBuilder"/>.
+        /// </summary>
         public BreezeMetadataBuilder(
             INHibernateClassMetadataProvider classMetadataProvider,
             IEntityMetadataProvider entityMetadataProvider,
             IBreezeConfigurator breezeConfigurator,
             IClientModelMetadataProvider clientModelMetadataProvider,
-            IPropertyValidatorsProvider propertyValidatorsProvider)
+            IPropertyValidatorsProvider propertyValidatorsProvider,
+            IDataTypeProvider dataTypeProvider)
         {
             _classMetadataProvider = classMetadataProvider;
             _entityMetadataProvider = entityMetadataProvider;
             _breezeConfigurator = breezeConfigurator;
             _clientModelMetadataProvider = clientModelMetadataProvider;
             _propertyValidatorsProvider = propertyValidatorsProvider;
+            _dataTypeProvider = dataTypeProvider;
         }
 
         /// <summary>
@@ -276,9 +283,9 @@ namespace Breeze.NHibernate
             {
                 var dataProperty = CreateDataProperty(
                     memberConfiguration.MemberName,
-                    GetDataType(NHibernateUtil.GuessType(memberConfiguration.MemberType)),
+                    _dataTypeProvider.GetDataType(memberConfiguration.MemberType),
                     false,
-                    !memberConfiguration.MemberType.IsValueType,
+                    IsNullable(memberConfiguration.MemberType),
                     false,
                     memberConfiguration,
                     entityType,
@@ -305,9 +312,9 @@ namespace Breeze.NHibernate
 
                 var dataProperty = CreateDataProperty(
                     memberConfiguration.MemberName,
-                    GetDataType(NHibernateUtil.GuessType(memberConfiguration.MemberType)),
+                    _dataTypeProvider.GetDataType(memberConfiguration.MemberType),
                     false,
-                    !memberConfiguration.MemberType.IsValueType,
+                    IsNullable(memberConfiguration.MemberType),
                     false,
                     memberConfiguration,
                     entityType,
@@ -629,7 +636,7 @@ namespace Breeze.NHibernate
             var complexType = new ComplexType(type) {Custom = modelConfiguration.Custom};
             foreach (var property in type.GetProperties())
             {
-                if (!TryGetDataType(NHibernateUtil.GuessType(property.PropertyType), out var dataType))
+                if (!_dataTypeProvider.TryGetDataType(property.PropertyType, out var dataType))
                 {
                     continue;
                 }
@@ -639,7 +646,7 @@ namespace Breeze.NHibernate
                         property.Name,
                         dataType,
                         false,
-                        !property.PropertyType.IsValueType,
+                        IsNullable(property.PropertyType),
                         false,
                         modelConfiguration.GetMember(property.Name),
                         complexType,
@@ -686,7 +693,7 @@ namespace Breeze.NHibernate
         {
             var dataType = type.IsComponentType
                 ? (DataType?) null
-                : GetDataType(type);
+                : _dataTypeProvider.GetDataType(type);
             var dataProperty = CreateDataProperty(
                 name,
                 dataType,

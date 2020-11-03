@@ -10,6 +10,7 @@ namespace Breeze.NHibernate.Serialization
     /// </summary>
     public class TimeSpanConverter : JsonConverter
     {
+        /// <inheritdoc />
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var ts = (TimeSpan)value;

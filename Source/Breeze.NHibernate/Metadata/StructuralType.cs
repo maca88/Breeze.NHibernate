@@ -3,15 +3,25 @@ using System.Collections.Generic;
 
 namespace Breeze.NHibernate.Metadata
 {
+    /// <summary>
+    /// A structural type.
+    /// </summary>
     public class StructuralType : MetadataObject
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="StructuralType"/>.
+        /// </summary>
         public StructuralType(Type type)
         {
             Type = type;
             ShortName = type.Name;
             Namespace = type.Namespace;
+            DataProperties = new List<DataProperty>();
         }
 
+        /// <summary>
+        /// The structural type type.
+        /// </summary>
         public Type Type { get; }
 
         /// <summary>
@@ -23,15 +33,21 @@ namespace Breeze.NHibernate.Metadata
             set => Set(nameof(ShortName), value);
         }
 
+        /// <summary>
+        /// The type namespace.
+        /// </summary>
         public string Namespace
         {
             get => Get<string>(nameof(Namespace));
             set => Set(nameof(Namespace), value);
         }
 
+        /// <summary>
+        /// A list of data properties.
+        /// </summary>
         public List<DataProperty> DataProperties
         {
-            get => GetOrCreate(nameof(DataProperties), () => new List<DataProperty>());
+            get => Get<List<DataProperty>>(nameof(DataProperties));
             set => Set(nameof(DataProperties), value);
         }
 
@@ -44,24 +60,34 @@ namespace Breeze.NHibernate.Metadata
             set => Set(nameof(Validators), value);
         }
 
+        /// <summary>
+        /// Custom data that will be included in the type metadata.
+        /// </summary>
         public object Custom
         {
             get => Get<object>(nameof(Custom));
             set => Set(nameof(Custom), value);
         }
 
+        /// <summary>
+        /// Whether the type is abstract.
+        /// </summary>
         public bool IsAbstract
         {
             get => Get<bool>(nameof(IsAbstract));
             set => Set(nameof(IsAbstract), value);
         }
 
+        /// <summary>
+        /// Whether the type is unmapped.
+        /// </summary>
         public bool IsUnmapped
         {
             get => Get<bool>(nameof(IsUnmapped));
             set => Set(nameof(IsUnmapped), value);
         }
 
+        /// <inheritdoc />
         public override string ToString()
         {
             return $"{ShortName}:#{Namespace}";

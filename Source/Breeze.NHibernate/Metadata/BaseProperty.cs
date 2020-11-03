@@ -2,6 +2,9 @@
 
 namespace Breeze.NHibernate.Metadata
 {
+    /// <summary>
+    /// Base property metadata definition.
+    /// </summary>
     public abstract class BaseProperty : MetadataObject
     {
         /// <summary>
@@ -13,6 +16,9 @@ namespace Breeze.NHibernate.Metadata
             set => Set(nameof(Name), value);
         }
 
+        /// <summary>
+        /// The property display name.
+        /// </summary>
         public string DisplayName
         {
             get => Get<string>(nameof(DisplayName));
@@ -28,6 +34,9 @@ namespace Breeze.NHibernate.Metadata
             set => Set(nameof(NameOnServer), value);
         }
 
+        /// <summary>
+        /// Custom data to be included in the metadata.
+        /// </summary>
         public object Custom
         {
             get => Get<object>(nameof(Custom));

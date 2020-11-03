@@ -8,6 +8,9 @@ namespace Breeze.NHibernate
     /// </summary>
     public class ClientModelProperty
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="ClientModelProperty"/>.
+        /// </summary>
         public ClientModelProperty(
             string name,
             Type type,

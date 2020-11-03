@@ -16,6 +16,9 @@ namespace Breeze.NHibernate
         private readonly ISaveWorkStateFactory _saveWorkStateFactory;
         private readonly IModelSaveValidatorProvider _modelSaveValidatorProvider;
 
+        /// <summary>
+        /// Constructs an instance of <see cref="PersistenceManager"/>.
+        /// </summary>
         public PersistenceManager(
             EntityUpdater entityUpdater,
             ISaveWorkStateFactory saveWorkStateFactory,

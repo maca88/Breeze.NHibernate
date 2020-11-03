@@ -10,12 +10,18 @@ namespace Breeze.NHibernate
     /// </summary>
     public class EntityErrorsException : Exception
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="EntityErrorsException"/>.
+        /// </summary>
         public EntityErrorsException(IEnumerable<EntityError> entityErrors)
         {
             EntityErrors = entityErrors.ToList();
             StatusCode = HttpStatusCode.BadRequest;
         }
 
+        /// <summary>
+        /// Constructs an instance of <see cref="EntityErrorsException"/>.
+        /// </summary>
         public EntityErrorsException(string message, IEnumerable<EntityError> entityErrors)
             : base(message)
         {

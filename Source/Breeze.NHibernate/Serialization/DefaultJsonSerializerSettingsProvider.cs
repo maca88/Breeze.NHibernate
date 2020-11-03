@@ -15,6 +15,9 @@ namespace Breeze.NHibernate.Serialization
         private readonly Lazy<JsonSerializerSettings> _serializerSettings;
         private readonly Lazy<JsonSerializerSettings> _serializerSettingsForSave;
 
+        /// <summary>
+        /// Constructs an instance of <see cref="DefaultJsonSerializerSettingsProvider"/>.
+        /// </summary>
         public DefaultJsonSerializerSettingsProvider(BreezeContractResolver breezeContractResolver)
         {
             _breezeContractResolver = breezeContractResolver;

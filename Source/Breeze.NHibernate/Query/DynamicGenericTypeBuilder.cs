@@ -1,4 +1,5 @@
-﻿// Copied from Breeze.Core
+// Copied from Breeze.Core
+#pragma warning disable CS1591
 /*
 /// <changelog>
   ///   <item who="jtraband" when="...">Created</item>

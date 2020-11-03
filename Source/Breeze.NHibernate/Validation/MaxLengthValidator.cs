@@ -8,6 +8,9 @@ namespace Breeze.NHibernate.Validation
     /// </summary>
     public class MaxLengthValidator : Validator, IBreezeValidator
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="MaxLengthValidator"/>.
+        /// </summary>
         public MaxLengthValidator(int maxLength) : base("maxLength")
         {
             MaxLength = maxLength;

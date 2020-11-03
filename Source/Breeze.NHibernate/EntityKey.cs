@@ -6,6 +6,9 @@ namespace Breeze.NHibernate
     /// </summary>
     public class EntityKey
     {
+        /// <summary>
+        /// Constructs an instance of <see cref="EntityKey"/>.
+        /// </summary>
         public EntityKey(string entityTypeName, object keyValue)
         {
             EntityTypeName = entityTypeName;

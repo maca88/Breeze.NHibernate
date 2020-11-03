@@ -17,17 +17,20 @@ namespace Breeze.NHibernate.Tests.Validators
 
             // Try to find the root node by IAggregate
             var aggregateRoots = new HashSet<object>();
-            foreach (var node in rootNodes)
+            for (var i = 0; i < rootNodes.Count;)
             {
-                var entity = node.EntityInfo.Entity;
-                if (entity is IAggregate aggregate)
+                var entity = rootNodes[i].EntityInfo.Entity;
+                var aggregateRoot = entity is IAggregate aggregate ? aggregate.GetAggregateRoot() : entity;
+                if (aggregateRoot != entity)
                 {
-                    aggregateRoots.Add(aggregate.GetAggregateRoot());
+                    rootNodes.RemoveAt(i);
                 }
                 else
                 {
-                    aggregateRoots.Add(node);
+                    i++;
                 }
+
+                aggregateRoots.Add(aggregateRoot);
             }
 
             foreach (var aggregateRoot in aggregateRoots)

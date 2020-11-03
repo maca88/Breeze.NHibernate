@@ -15,6 +15,9 @@ namespace Breeze.NHibernate
         private Dictionary<GraphNode, EntityAssociation> _children;
         private Dictionary<GraphNode, EntityAssociation> _parents;
 
+        /// <summary>
+        /// Constructs an instance of <see cref="GraphNode"/>.
+        /// </summary>
         public GraphNode(EntityInfo entityInfo)
         {
             EntityInfo = entityInfo;

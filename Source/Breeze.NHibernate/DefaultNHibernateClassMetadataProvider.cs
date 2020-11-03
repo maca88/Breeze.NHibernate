@@ -11,6 +11,9 @@ namespace Breeze.NHibernate
     {
         private readonly ISessionFactory _sessionFactory;
 
+        /// <summary>
+        /// Constructs an instance of <see cref="DefaultNHibernateClassMetadataProvider"/>.
+        /// </summary>
         public DefaultNHibernateClassMetadataProvider(ISessionFactory sessionFactory)
         {
             _sessionFactory = sessionFactory;
