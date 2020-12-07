@@ -38,26 +38,26 @@ namespace Breeze.NHibernate
         /// <param name="entityInfo"></param>
         public void AddToGraph(EntityInfo entityInfo)
         {
-            AddToGraph(entityInfo, null, null);
+            TryAddToGraph(entityInfo, null, null);
         }
 
         /// <summary>
-        /// Adds a child and its parent <see cref="EntityInfo"/> to the graph.
+        /// Tries to add a child and its parent <see cref="EntityInfo"/> to the graph.
         /// </summary>
         /// <param name="child">The child entity info.</param>
         /// <param name="parent">The parent entity info.</param>
         /// <param name="association">The association between the parent and its child.</param>
-        public void AddToGraph(EntityInfo child, EntityInfo parent, EntityAssociation association)
+        /// <returns>Whether the child and its parent were added to the graph.</returns>
+        public bool TryAddToGraph(EntityInfo child, EntityInfo parent, EntityAssociation association)
         {
             var childNode = GetOrAdd(child);
             if (parent == null)
             {
-                return;
+                return false;
             }
 
             var parentNode = GetOrAdd(parent);
-            parentNode.AddChild(childNode, association);
-            childNode.AddParent(parentNode, association);
+            return parentNode.AddChild(childNode, association) && childNode.AddParent(parentNode, association);
         }
 
         /// <summary>

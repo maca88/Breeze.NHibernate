@@ -689,8 +689,8 @@ namespace Breeze.NHibernate
                     continue;
                 }
 
-                var parentEntityInfO = entitiesInfo.Find(o => o.Entity == parentEntity);
-                dependencyGraph.AddToGraph(entityInfo, parentEntityInfO, entityAssociation);
+                var parentEntityInfo = entitiesInfo.Find(o => o.Entity == parentEntity);
+                dependencyGraph.TryAddToGraph(entityInfo, parentEntityInfo, entityAssociation);
             }
         }
 
@@ -852,9 +852,10 @@ namespace Breeze.NHibernate
                 idMap.TryGetValue(fkValue, out parentEntityInfo))
             {
                 dbParent = parentEntityInfo.Entity;
-                if (association.IsChild)
+                if (association.IsChild && !dependencyGraph.TryAddToGraph(entityInfo, parentEntityInfo, association))
                 {
-                    dependencyGraph.AddToGraph(entityInfo, parentEntityInfo, association);
+                    // In case the association was already processed, skip further processing
+                    return;
                 }
             }
             else

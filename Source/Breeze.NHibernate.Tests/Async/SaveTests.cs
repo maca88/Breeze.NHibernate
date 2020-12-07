@@ -34,7 +34,36 @@ namespace Breeze.NHibernate.Tests
             await (AddOrderAsync());
         }
 
-        private async Task<long> AddOrderAsync()
+        [Fact]
+        public async Task TestAddOrderWithSelfFinalOrderAsync()
+        {
+            await (AddOrderAsync(true));
+        }
+
+        [Fact]
+        public async Task TestUpdateOrderWithSelfFinalOrderAsync()
+        {
+            var id = await (AddOrderAsync());
+            await (TestAsync(
+                em =>
+                {
+                    var order = em.Get<Order>(id);
+                    em.SetModified(order);
+                    foreach (var row in order.Products)
+                    {
+                        row.OrderFinal = order;
+                        em.SetModified(row);
+                    }
+                },
+                (em, result) =>
+                {
+                    Assert.Empty(result.KeyMappings);
+                    Assert.Equal(2, result.Entities.Count);
+                    Assert.Empty(result.DeletedKeys);
+                }));
+        }
+
+        private async Task<long> AddOrderAsync(bool selfFinalOrder = false)
         {
             long? id = null;
             await (TestAsync(
@@ -50,6 +79,11 @@ namespace Breeze.NHibernate.Tests
 
                     var orderRow = em.CreateEntity<OrderProduct>();
                     orderRow.Order = order;
+                    if (selfFinalOrder)
+                    {
+                        orderRow.OrderFinal = order;
+                    }
+
                     orderRow.TotalPrice = 20.2m;
                     orderRow.Quantity = 15;
                     orderRow.Product = em.CreateEntity<Product>();

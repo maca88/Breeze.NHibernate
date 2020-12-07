@@ -781,13 +781,13 @@ namespace Breeze.NHibernate
                 dataProperty.DefaultValue = defaultValue;
             }
 
-            _dataPropertyCreatedCallback?.Invoke(dataProperty, structuralType);
-
             var validators = _propertyValidatorsProvider.GetValidators(dataProperty, structuralType.Type).ToList();
             if (validators.Count > 0)
             {
                 dataProperty.Validators = validators;
             }
+
+            _dataPropertyCreatedCallback?.Invoke(dataProperty, structuralType);
 
             return dataProperty;
         }

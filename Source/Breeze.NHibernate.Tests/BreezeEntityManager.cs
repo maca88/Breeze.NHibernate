@@ -251,7 +251,7 @@ namespace Breeze.NHibernate.Tests
                                 {
                                     if (entityMetadata.SyntheticForeignKeyProperties.TryGetValue(fkProperty, out var syntheticProperty))
                                     {
-                                        originalValues[fkProperty] = GetToken(syntheticProperty.GetIdentifierFunction(originalValue));
+                                        originalValues[fkProperty] = originalValue == null ? null : GetToken(syntheticProperty.GetIdentifierFunction(originalValue));
                                     }
                                 }
                             }

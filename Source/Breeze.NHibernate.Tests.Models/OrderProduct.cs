@@ -5,6 +5,8 @@ namespace Breeze.NHibernate.Tests.Models
     {
         public virtual Order Order { get; set; }
 
+        public virtual Order OrderFinal { get; set; }
+
         public virtual Product Product { get; set; }
 
         public virtual int Quantity { get; set; }
@@ -22,6 +24,10 @@ namespace Breeze.NHibernate.Tests.Models
             {
                 o.NotNullable(true);
                 o.Column("OrderId");
+            });
+            ManyToOne(o => o.OrderFinal, o =>
+            {
+                o.Column("OrderFinalId");
             });
             ManyToOne(o => o.Product, o =>
             {

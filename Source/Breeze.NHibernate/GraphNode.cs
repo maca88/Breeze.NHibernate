@@ -72,24 +72,36 @@ namespace Breeze.NHibernate
             }
         }
 
-        internal void AddParent(GraphNode parent, EntityAssociation association)
+        internal bool AddParent(GraphNode parent, EntityAssociation association)
         {
             if (_parents == null)
             {
                 _parents = new Dictionary<GraphNode, EntityAssociation>();
             }
-            
+
+            if (_parents.ContainsKey(parent))
+            {
+                return false;
+            }
+
             _parents.Add(parent, association);
+            return true;
         }
 
-        internal void AddChild(GraphNode child, EntityAssociation association)
+        internal bool AddChild(GraphNode child, EntityAssociation association)
         {
             if (_children == null)
             {
                 _children = new Dictionary<GraphNode, EntityAssociation>();
             }
 
+            if (_children.ContainsKey(child))
+            {
+                return false;
+            }
+
             _children.Add(child, association);
+            return true;
         }
     }
 }

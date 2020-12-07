@@ -26,7 +26,36 @@ namespace Breeze.NHibernate.Tests
             AddOrder();
         }
 
-        private long AddOrder()
+        [Fact]
+        public void TestAddOrderWithSelfFinalOrder()
+        {
+            AddOrder(true);
+        }
+
+        [Fact]
+        public void TestUpdateOrderWithSelfFinalOrder()
+        {
+            var id = AddOrder();
+            Test(
+                em =>
+                {
+                    var order = em.Get<Order>(id);
+                    em.SetModified(order);
+                    foreach (var row in order.Products)
+                    {
+                        row.OrderFinal = order;
+                        em.SetModified(row);
+                    }
+                },
+                (em, result) =>
+                {
+                    Assert.Empty(result.KeyMappings);
+                    Assert.Equal(2, result.Entities.Count);
+                    Assert.Empty(result.DeletedKeys);
+                });
+        }
+
+        private long AddOrder(bool selfFinalOrder = false)
         {
             long? id = null;
             Test(
@@ -42,6 +71,11 @@ namespace Breeze.NHibernate.Tests
 
                     var orderRow = em.CreateEntity<OrderProduct>();
                     orderRow.Order = order;
+                    if (selfFinalOrder)
+                    {
+                        orderRow.OrderFinal = order;
+                    }
+
                     orderRow.TotalPrice = 20.2m;
                     orderRow.Quantity = 15;
                     orderRow.Product = em.CreateEntity<Product>();
